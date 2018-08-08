@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta chatset="utf-8" >
+	</head>
+	<body>
+		<canvas id = "mycanvas" width = "1100" height= "1100" ></canvas>
+		<script>
+			document.body.onselectstart=document.body.oncontextmenu=function(){ return false;} 
+			var canvas = document.getElementById("mycanvas");
+			var context = canvas.getContext("2d");
+			var biaoji = new Image();
+			biaoji.src = "biaoji.jpg";
+			var r = 25;
+			var a = 25;
+			var x;
+			var y;
+			var num = 99;
+			var storex = [];
+			var storey = [];
+			var map = [];
+			var track = [];
+			var record = [];
+			var down = true;
+			canvas.addEventListener("mousedown", onmousedown, false);
+		//创建地图数组 记录数组 监控数组
+			var createMap = function(){
+				for(var i=0;i<r;i++){
+					map[i] = new Array();
+				}
+				for(i=0;i<r;i++){
+					for(var j=0;j<r;j++){
+						map[i][j] = 0;
+					}
+				}
+			};
+			createMap();
+			var Record = function(){
+				for(var i=0;i<r;i++){
+					record[i] = new Array();
+				}
+				for(i=0;i<r;i++){
+					for(var j=0;j<r;j++){
+						record[i][j] = 0;
+					}
+				}
+			};
+			Record();
+		//监控点击状态
+			var Track = function(){
+				for(var i=0;i<r;i++){
+					track[i] = new Array();
+				}
+				for(i=0;i<r;i++){
+					for(var j=0;j<r;j++){
+						track[i][j] = 0;
+					}
+				}
+			};
+			Track();
+		//写地图
+			var writeMine = function(){
+					var randomlocation = function(){		//随机位置写入
+						x = Math.floor(Math.random()*r);
+						y = Math.floor(Math.random()*r);
+						if( map[x][y]!==9){
+							 map[x][y] = 9;
+						}else {
+							randomlocation();
+						}
+					};
+					for(var i=0;i<num;i++){
+						randomlocation();
+					}
+				};
+				writeMine();
+			//在雷周围的格子加1
+				var plustile = function(ary, x, y){
+					if(x>=0&&x<r&&y>=0&&y<r){
+						if(ary[x][y]!==9)
+							ary[x][y] += 1;
+					}
+				};
+				
+				var writetile = function(x, y){
+					for(x=0;x<r;x++){
+						for(y=0;y<r;y++){
+						if(map[x][y] === 9){
+								plustile(map, x-1, y-1); //左上
+								plustile(map, x, y-1); //上方
+								plustile(map, x+1, y-1); //右上
+								plustile(map, x-1, y); //左边
+								plustile(map, x+1, y); //右边
+								plustile(map, x-1, y+1); //左下
+								plustile(map, x, y+1); //下边
+								plustile(map, x+1, y+1); //右下
+							}
+						}
+					}
+				};
+				writetile();
+			//创建背景
+				var background = function(){
+					for(var i=0;i<r;i++){
+						for(var j=0;j<r;j++){
+							context.beginPath(); 
+							context.fillStyle="#0000ff";
+							context.strokeStyle="#000";
+							context.lineWidth=1;
+							context.strokeRect(i*a, j*a, a, a);
+							context.fillRect(i*a, j*a, a, a);
+						}
+					}
+				};
+				background();
+				
+			//鼠标点击事件
+				function onmousedown(e){
+					e = e||event;
+					x1 = e.clientX - canvas.offsetLeft;
+					y1 = e.clientY - canvas.offsetTop;
+					x = Math.floor(x1/r);
+					y = Math.floor(y1/r);
+					if(e.button == 0){
+						if(down){
+							if(map[x][y] != 9){
+								show(x,y);
+								showaround();
+								}
+							else{
+								gameover();
+							}
+						}
+					}
+					if(e.button == 2){
+						if( track[x][y] === 0){
+							track[x][y] = 1;
+							drawImage(biaoji,  x* r,  y* y);
+							rest--;
+							storex.push(x);
+							storey.push(y);
+							down = false;
+						}
+						else{
+							track[x][y] = 0;
+							context.fillStyle = "#FFF";
+							context.strokeStyle = "#000";
+							context.lineWidth = 1;
+							context.fillRect( x* a,  y* a,  a,  a);
+							rest++;
+							storex.pop();
+							storey.pop();						
+							down = true;
+						}
+					}
+				}
+			
+		//打开周围格子
+			var show = function(x, y){
+					if(map[x][y] != 9){
+						context.fillStyle = "#FFF";
+						context.strokeStyle = "#000";
+						context.lineWidth = 1;
+						context.fillRect(x* a, y* a,  a,  a);
+						context.strokeRect(x* a, y* a,  a,  a);
+						if(map[x][y] != 0){
+							context.beginPath();
+							context.fillStyle="#FFF";
+							context.strokeStyle="#000";
+							context.lineWidth=1;
+							context.fillRect(x* a,  y* a,  a,  a);
+							context.font = "20px sans-serif";
+							context.fillStyle="#000";
+							context.fillText(map[x][y], x* a+6, (1+y)* a-3);
+						}
+					}
+				}
+			var showaround = function(){
+				var judge = 1;
+				if(map[x-1][y-1] == 9){
+					judge = 0;
+				}
+				if(map[x-1][y] == 9){
+					judge = 0;
+				}
+				if(map[x-1][y+1] == 9){
+					judge = 0;
+				}
+				if(map[x][y-1] == 9){
+					judge = 0;
+				}
+				if(map[x][y+1] == 9){
+					judge = 0;
+				}
+				if(map[x+1][y-1] == 9){
+					judge = 0;
+				}
+				if(map[x+1][y] == 9){
+					judge = 0;
+				}
+				if(map[x+1][y+1] == 9){
+					judge = 0;
+				}
+				console.log(judge);
+				if(judge){
+					if(x-1>=0&&y-1>=0&&x+1<=r&&y+1<=r){
+						show(x-1, y-1);
+						show(x-1, y+1);
+						show(x-1, y);
+						show(x, y-1);
+						show(x, y+1);
+						show(x+1, y-1);
+						show(x+1, y);
+						show(x+1, y+1);
+					}
+				}
+			}
+		//游戏失败
+			var gameover = function(){
+				var shule = "GAMEOVER!";
+				for(x=0;x<r;x++){
+					for(y=0;y<r;y++){
+						if(map[x][y] == 9){
+							context.fillStyle = "orangered";
+							context.fillRect( x* a,  y* a,  a,  a);
+							
+						}
+					}
+				}
+				context.fillStyle = "black";
+				context.font = "50px Arial";
+				context.translate(100, 300);
+				context.fillText(shule, 0, 0);
+			}
+		//判断游戏胜利
+			var gamewin = function(){
+				if(rest == 0){
+					var check = 0;
+					for(var i=0;i<num;i++){
+						for(var j=0;j<num;j++){
+							if(map[storex[j]][storey[j]] == 9){
+								check++;
+							}
+						}
+					}
+					if(check == num){
+						alert("恭喜过关！");
+					}else{
+						return;
+					}
+				}
+			}
+		</script>
+	</body>
+</html>
