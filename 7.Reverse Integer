@@ -2,20 +2,34 @@
  * @param {number} x
  * @return {number}
  */
-var reverse = function(x) {
-    var nums = [];
-    var num;
-    var sum = 0;
-    num = x;
-    for(var i=0;;i++){
-        nums[i] = num%10;
-        num = Math.floor(num/10);
-        if(num < 1){
-            break;
-        }
-    }
-    for(var j=0;j<nums.length;j++){
-        sum = sum + nums[j]*Math.pow(10,(nums.length-j-1));   
-    }
-    return sum;
-};
+    var reverse = function(x) {
+		var judge = true;
+		var nums = [];
+		var num;
+		var sum = 0;
+		if(x < 0){
+			num = -x;
+		}
+		else{
+			num = x;
+			judge = false;
+		}
+		for(var i=0;;i++){
+			nums[i] = num%10;
+			num = Math.floor(num/10);
+			if(num < 1){
+				break;
+			}
+		}
+		for(var j=0;j<nums.length;j++){
+			sum = sum + nums[j]*Math.pow(10,(nums.length-j-1));   
+		}
+		if(judge){
+			sum = -sum;
+		}
+        if(sum < -Math.pow(2,31)||sum > Math.pow(2,31)-1){
+			sum = 0;
+		}
+		console.log(sum);
+		return sum;
+	};
