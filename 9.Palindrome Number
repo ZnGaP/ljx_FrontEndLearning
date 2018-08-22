@@ -1,0 +1,31 @@
+/**
+ * @param {number} x
+ * @return {boolean}
+ */
+var isPalindrome = function(x) {
+    if(x < 0){
+        return false;
+    }
+    else if(x == 0){
+        return true;
+    }
+    else{
+        var nums = [];
+        var number;
+        number = x;
+        var judge = true;
+        for(var i=0;;i++){
+            nums[i] = number%10;
+            number = Math.floor(number/10);
+            if(number<1){
+                break;
+            }
+        }
+        for(var j=0;j<nums.length;j++){
+            if(nums[j] != nums[nums.length-j-1]){
+                judge = false;
+            }
+        }
+        return judge;
+    }
+};
