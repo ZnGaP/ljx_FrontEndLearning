@@ -1,0 +1,44 @@
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var romanToInt = function(s) {
+		var roman = [];
+		var integer = 0;
+		var i;
+		roman = s.split("");
+		console.log(roman);
+		function Value(x){
+			switch(x){
+				case "I": roman[i] = 1
+				break;
+				case "V": roman[i] = 5
+				break;
+				case "X": roman[i] = 10
+				break;
+				case "L": roman[i] = 50
+				break;
+				case "C": roman[i] = 100
+				break;
+				case "D": roman[i] = 500
+				break;
+				case "M": roman[i] = 1000
+				break;
+				default: return false;
+			}
+		}
+		i = roman.length-1;
+		Value(roman[i]);
+		integer = roman[i];
+		i--;
+		for(;i>=0;i--){
+			Value(roman[i]);
+			if(roman[i]>=roman[i+1]){
+				integer += roman[i];
+			}
+			else{
+				integer -= roman[i];
+			}
+		}
+    return integer;
+	}
