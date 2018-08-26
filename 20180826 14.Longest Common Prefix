@@ -1,0 +1,31 @@
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function(strs){
+    if(strs.length == 0){
+        return ""
+    }
+		var common;
+		var s1, s2;
+		var f1 = "", f2 = "";
+		common = strs[0];
+		for(var i=1;i<strs.length;i++){
+			s1 = common.split("");
+			s2 = strs[i].split("");
+			common = "";
+			var length = s1.length<s2.length?s1.length:s2.length;
+			for(var j=0;j<length;j++){
+				f1 = s1.shift();
+				f2 = s2.shift();
+				console.log(f1+" "+f2);
+				if(f1 == f2){
+					common += f1;
+				}
+				else{
+					break;
+				}
+			}
+		}
+		return common;
+	};
