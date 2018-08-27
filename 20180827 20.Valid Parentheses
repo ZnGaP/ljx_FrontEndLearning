@@ -1,0 +1,31 @@
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function(s) {
+    var left = [];
+		var str = s.split("");
+		var parenthsis;
+		if(s.length == 0){
+			return true;
+		}
+		if(s.length%2 == 1){
+			return false;
+		}
+		for(var i=0;i<s.length;i++){
+			if(str[i] == '('||str[i] == '['||str[i] == '{'){
+				left.push(str[i]);
+			}
+			else if(str[i] == ')'||str[i] == ']'||str[i] == '}'){
+				parenthsis = left.pop();
+				if((parenthsis == '('&&str[i] != ')')||(parenthsis == '['&&str[i] != ']')||(parenthsis == '{'&&str[i] != '}')){
+					return false;
+				}
+                
+			}	
+		}
+        if(left.length != 0){
+            return false;
+        }
+		return true;
+};
