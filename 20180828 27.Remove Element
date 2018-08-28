@@ -1,0 +1,18 @@
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement = function(nums, val) {
+    var i = 0;
+    var length = nums.length;
+    for(var j=0;j<length;j++){
+        if(nums[i] != val){
+            i++;
+        } 
+        else{
+            nums.splice(i,1);
+        }
+    }
+    return i;
+};
