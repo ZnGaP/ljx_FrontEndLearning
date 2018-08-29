@@ -1,0 +1,18 @@
+/**
+ * @param {string} haystack
+ * @param {string} needle
+ * @return {number}
+ */
+var strStr = function(haystack, needle) {
+    var length = needle.length;
+    if(length == 0){
+        return 0;
+    }
+    var i = 0;
+    for(var j=length;i<haystack.length;i++,j++){
+        if(needle == haystack.substring(i,j)){
+            return i;
+        }
+    }
+    return -1;
+};
