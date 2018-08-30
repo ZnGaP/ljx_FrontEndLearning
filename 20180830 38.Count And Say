@@ -1,0 +1,38 @@
+/**
+ * @param {number} n
+ * @return {string}
+ */
+var countAndSay = function(n) {
+    var Nums = ["1"];
+            var Nums = [1];
+            var count = [], nums = [];
+            var i, k;
+            var string_num = "";
+            for(var t=0;t<n-1;t++){
+                i = 1
+                k = 0;
+                for(var j=0;j<Nums.length-1;j++){
+                    if(Nums[j] == Nums[j+1]){
+                        i++;
+                        continue;
+                    }
+                    if(Nums[j] != Nums[j+1]){
+                        count[k] = i;
+                        nums[k] = Nums[j];
+                        i = 1;
+                        k++;
+                    }
+                }
+                count[k] = i;
+                nums[k] = Nums[j]
+                for(j=0,k=0;k<count.length;j+=2,k++){
+                    Nums[j] = count[k];
+                    Nums[j+1] = nums[k];
+                }
+            }          
+            for(j=0;j<Nums.length;j++){
+                string_num += Nums[j].toString();
+            }
+            console.log(string_num);
+            return string_num;
+};
