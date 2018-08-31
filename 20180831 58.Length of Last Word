@@ -1,0 +1,29 @@
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLastWord = function(s) {
+    if(s.length == 0){
+        return 0;
+    }
+    if(s.indexOf(" ") == -1){
+        return s.length;
+    }
+    var strs = [];
+    var string_last = "";
+    strs = s.split(" ");
+    var length = strs.length;
+    var k = 0;
+    for(var i=0;i<length;i++){
+        if(strs[k] == ""){
+            strs.splice(k,1);
+            continue;
+        }
+        k++;
+    }
+    if(strs.length != 0){
+        string_last = strs[strs.length-1];
+    }
+    console.log(string_last);
+    return string_last.length;
+};
