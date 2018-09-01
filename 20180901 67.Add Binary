@@ -1,0 +1,35 @@
+/**
+ * @param {string} a
+ * @param {string} b
+ * @return {string}
+ */
+var addBinary = function(a, b) {
+    var string_sum = "";
+	var num1 = (a.length<b.length?a:b).split("");
+	var num2 = (a.length>=b.length?a:b).split("");
+	var length = a.length<b.length?a.length:b.length;
+	
+	for(var i=0;i<num1.length;i++){
+		num1[i] = Number(num1[i]);
+	}
+	for(i=0;i<num2.length;i++){
+		num2[i] = Number(num2[i]);
+	}
+	for(i=0;i<length;i++){
+ 		num2[num2.length-1-i] += num1[num1.length-1-i];
+	}
+	for(var j=num2.length-1;j>0;j--){
+		if(num2[j] > 1){
+			num2[j] -= 2;
+			num2[j-1]++;
+		}
+	}
+	if(num2[0]>1){
+		num2[0] -= 2;
+		num2.unshift(1);
+	}
+	for(j=0;j<num2.length;j++){
+		string_sum += num2[j].toString();
+	}
+	return string_sum;
+};
