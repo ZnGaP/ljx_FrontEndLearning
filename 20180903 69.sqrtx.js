@@ -39,6 +39,9 @@
  * @return {number}
  */
 var mySqrt = function(x) {
+    if(x == 1){
+        return 1;
+    };
     let left, right, mid;
             left = 0;
             right = x;
