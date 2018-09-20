@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var isIsomorphic = function(s, t) {
+            let s_ary = new Array(128);
+            let t_ary = new Array(128);
+            for(let i = 0;i < s.length;i++){
+                if(s_ary[s[i]] != t_ary[t[i]]){
+                    console.log(0);
+                    return false;
+                }
+                if(s_ary[s[i]] == undefined){
+                    s_ary[s[i]] = i + 1;
+                    t_ary[t[i]] = i + 1; 
+                }
+                console.log(s_ary[s[i]]+' '+t_ary[t[i]]);
+            }
+            console.log(1);
+            return true;
+        };
+        isIsomorphic("13", "42");
+    </script>
+</body>
+</html>
