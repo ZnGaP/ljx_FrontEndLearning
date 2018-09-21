@@ -8,24 +8,14 @@
 </head>
 <body>
     <script>
-        var isIsomorphic = function(s, t) {
-            let s_ary = new Array(128);
-            let t_ary = new Array(128);
-            for(let i = 0;i < s.length;i++){
-                if(s_ary[s[i]] != t_ary[t[i]]){
-                    console.log(0);
-                    return false;
-                }
-                if(s_ary[s[i]] == undefined){
-                    s_ary[s[i]] = i + 1;
-                    t_ary[t[i]] = i + 1; 
-                }
-                console.log(s_ary[s[i]]+' '+t_ary[t[i]]);
-            }
-            console.log(1);
-            return true;
+        var ListNode = function(val){
+            this.next = null;
+            this.val = val;
+        }
+        var reverseList = function(head) {
+            console.log(head);
         };
-        isIsomorphic("13", "42");
+reverseList([1,2,3,4,5]);
     </script>
 </body>
 </html>
