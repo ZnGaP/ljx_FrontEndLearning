@@ -68,5 +68,14 @@
  * @return {TreeNode}
  */
 var lowestCommonAncestor = function(root, p, q) {
-    
+    let ancestor = root;
+    while(1) {
+        if(ancestor.val > p.val && ancestor.val > q.val) {
+            ancestor = ancestor.left;
+        }else if(ancestor.val < q.val && ancestor.val < p.val) {
+            ancestor = ancestor.right;
+        }else {
+            return ancestor;
+        }
+    }
 };
