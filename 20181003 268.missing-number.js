@@ -43,3 +43,12 @@ var missingNumber = function(nums) {
         }
     }
 };
+var missingNumber = function(nums) {
+    let length = nums.length;
+    let sum = sum_nums = 0;
+    for(let i = 0;i < length;i++){
+        sum_nums += nums[i];
+        sum += i;
+    }
+    return sum + length - sum_nums; 
+};
