@@ -41,8 +41,13 @@ var sumOfLeftLeaves = function(root) {
     if(!root) {
         return 0;
     }
-    if(!root.left && !root.right) {
-        
+    if(root.left) {
+        if(!root.left.left && !root.left.right) {
+            return root.left.val + sumOfLeftLeaves(root.right);
+        } else {
+            return sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+        }
+    } else {
+        return sumOfLeftLeaves(root.right);
     }
-
 };
