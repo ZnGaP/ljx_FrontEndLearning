@@ -65,5 +65,27 @@
  * @return {Node}
  */
 var construct = function(grid) {
-    
+    let n = grid.length;
+    return buildTree(grid, 0, 0, n, n);
+    function buildTree(ary, r1, c1, r2, c2) {
+        if(r1 >= r2 || c1 >= c2) return null;
+        let isLeaf = true;
+        let val = ary[r1][c1];
+        let rowMid = Math.floor((r1 + r2) / 2),
+            colMid = Math.floor((c1 + c2) / 2);
+        for(let i = r1;i < r2;i++) {
+            for(let j = c1;j < c2;j++) {
+                if(ary[i][j] !== val) {
+                    isLeaf = false;
+                    break;
+                }
+            }
+        }
+        if(isLeaf) return new Node(val === 1, true, null, null, null, null);
+        return new Node(true, false,
+            buildTree(ary, r1, c1, rowMid, colMid),
+            buildTree(ary, r1, colMid, rowMid, c2),
+            buildTree(ary, rowMid, c1, r2, colMid),
+            buildTree(ary, rowMid, colMid, r2, c2));
+    }
 };
