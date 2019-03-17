@@ -51,6 +51,24 @@
  * @return {number}
  */
 var reachNumber = function(target) {
-    
+    target = Math.abs(target);
+    let sum = 0;
+    let k = 0;
+    while(sum < target) {
+        k++;
+        sum += k;
+    }
+    console.log(k);
+    if(sum === target) return k;
+    let delta = sum - target;
+    if(delta % 2 === 0) {
+        return k;
+    } else {
+        if(k % 2 === 0) {
+            return k + 1;
+        } else {
+            return k + 2;
+        }
+    }
 };
 
