@@ -54,5 +54,19 @@
  * @return {number[][]}
  */
 var levelOrder = function(root) {
-    
+    let values = [];
+    getValue(values, 0, root);
+    return values;
+    function getValue(ary, len, node) {
+        if(!root) {
+            return; 
+        }
+        if(ary.length <= len) {
+            ary.push([]);
+        }
+        ary[len].push(node.val);
+        for(let id in node.children) {
+            getValue(ary, len + 1, node.children[id])
+        }
+    }
 };
