@@ -31,7 +31,7 @@
  * ⁠   5   -3
  * ⁠  / \    \
  * ⁠ 3   2   11
- * ⁠/ \   \                                                              
+ * ⁠/ \   \
  * 3  -2   1
  * 
  * Return 3. The paths that sum to 8 are:
@@ -55,5 +55,27 @@
  * @return {number}
  */
 var pathSum = function(root, sum) {
-    
+    let count = 0;
+    if(!root) return 0;
+    let nodes = [root];
+    let i = 0;
+    while(i < nodes.length) {
+        let temp = nodes[i];
+        if(nodes[i].left) nodes.push(nodes[i].left)
+        if(nodes[i].right) nodes.push(nodes[i].right);
+        i++;
+    }
+    for(i = 0;i < nodes.length;i++) {
+        getSum(nodes[i], sum);
+    }
+    return count;
+    function getSum(node, sum1) {
+        if(!node) return;
+        if(node.val === sum1) {
+            count++;
+        }
+        getSum(node.left, sum1 - node.val);
+        getSum(node.right, sum1 - node.val);
+    }
 };
+
