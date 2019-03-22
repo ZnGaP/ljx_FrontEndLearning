@@ -41,6 +41,21 @@
  */
 var letterCasePermutation = function(S) {
     let permutation = [];
-    
+    let len = S.length;
+    transform('', 0);
+    return permutation;
+    function transform(s1, index) {
+        if(index === len) {
+            permutation.push(s1)
+            return;
+        }
+        if(isNaN(parseInt(S[index]))) {
+            transform(s1 + S[index].toLocaleLowerCase(), index + 1);
+            transform(s1 + S[index].toLocaleUpperCase(), index + 1);
+        } else {
+            s1 += S[index];
+            transform(s1, index + 1);
+        }
+    }
 };
 
