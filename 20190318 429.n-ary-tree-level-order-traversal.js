@@ -58,7 +58,7 @@ var levelOrder = function(root) {
     getValue(values, 0, root);
     return values;
     function getValue(ary, len, node) {
-        if(!root) {
+        if(!node) {
             return; 
         }
         if(ary.length <= len) {
