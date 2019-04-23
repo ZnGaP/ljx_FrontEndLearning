@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>rain</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        #canvas {
+            background: #000000;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id='canvas'></canvas>
+    <script>
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');//设置绘图环境
+        let w = canvas.width = window.innerWidth;//将浏览器宽度赋给canvas
+        let h = canvas.height = window.innerHeight;//将浏览器高度赋给canvas
+        let count =  30;//设置雨点个数为30
+        let drops = [];//定义一个数组保存雨点
+        window.onresize = function(){
+            w = canvas.width = window.innerWidth;
+            h = canvas.width = window.innerHeight;
+        }//实时更新浏览器绘画窗口
+
+        //添加雨点类
+        function Drop(){
+        }
+        Drop.prototype = {
+            init : function() {
+                this.x = random(0, w);//初始横坐标
+                this.y = 0;//初始纵坐标
+                this.r = 1;//初始半径
+                this.vy = random(4, 5);//初始纵向速度
+                this.vr = 1;//半径增大速度
+                this.a = 1;//纵向加速度
+                this.va = 0.96;//初始透明度
+                this.l = random(h * 0.8, h * 0.9);
+            },
+            //绘制雨点和涟漪
+            draw : function() {
+                if(this.y > this.l) {
+                    context.scale(1, .5);
+                    context.beginPath();
+                    context.arc(this.x, 2 * this.y + 4, this.r, 0, 2 * Math.PI, false);
+                    context.strokeStyle = 'rgba(0,255,255,' + this.a + ')';
+                    context.stroke();
+                    context.scale(1, 2);
+                } else {
+                    context.fillStyle = color(this.a);
+                    context.fillRect(this.x, this.y, 2, 10);
+                }
+                this.update();
+            },
+            //更新雨点坐标
+            update : function() {
+                if(this.y < this.l) {
+                    this.y += this.vy;
+                } else {
+                    if(this.a > 0.03) {
+                        this.r += this.vr;
+                        if(this.r > 50) {
+                            this.a *= this.va;
+                        }
+                    } else {
+                        this.init();
+                    }
+                }
+            }
+        }
+        //调用经动画，绘制背景和雨点
+        function move() {
+            context.fillStyle = 'rgba(0, 0, 0, .1)';
+            context.fillRect(0, 0, w, h);
+            for(let i = 0; i < drops.length; i++) {
+                drops[i].draw();
+            }
+            requestAnimationFrame(move);
+        }
+        //延迟产生雨滴
+        function setup() {
+            for(let i = 0; i < count; i++) {
+                (function(j) {
+                    setTimeout(function(){
+                        let drop = new Drop();
+                        drop.init();
+                        drops.push(drop);
+                    }, j * 200);
+                })(i)
+            }
+        }        
+
+        setup();
+        move();
+        (function() {
+            
+        })()
+
+        function random(min, max) {
+            return Math.ceil((max - min) * Math.random()) + min;
+        }
+        
+        function color(a) {
+            let r = random(0, 255);
+            let g = random(0, 255);
+            let b = random(0, 255);
+            return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+        }
+    </script>
+</body>
+</html>

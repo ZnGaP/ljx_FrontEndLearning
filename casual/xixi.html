@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Happy Birthday</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            background: #000000;
+        }
+        #canvas{
+            top: 0;
+            left: 0;
+        }
+        #canvas1{
+            top: 0;
+            left: 0;
+        }
+        .canvas{
+            position: absolute;
+        }
+    </style>
+    
+</head>
+<body>
+    <audio src="" autoplay='autoplay'></audio>
+    <canvas id='canvas' class="canvas"></canvas>
+    <canvas id='canvas1' class="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const canvas1 = document.getElementById('canvas1');
+        const context = canvas.getContext('2d');
+        const context1 = canvas1.getContext('2d');
+        let w = window.innerWidth;
+        let h = window.innerHeight;
+        canvas.width = canvas1.width = w;
+        canvas.height = canvas1.height = h;
+        let starAry = [];//储存星星的数组
+        let starCount = 100;//星星数目
+        let rainCount = 20;//流星数目
+        let rainAry = [];//储存流星雨的数组
+        //创建星星类
+        function Star(){
+            this.x = w * Math.random();
+            this.y = h * Math.random();
+        }
+        Star.prototype = {
+            //星星随机黑白闪烁
+            getColor : function() {
+                let r = Math.random();
+                if(r < 0.5) {
+                    return '#000000';
+                } else {
+                    return '#FFFFFF';
+                }
+            },
+            //绘制星星
+            draw : function() {
+                context.fillStyle = this.getColor();
+                context.fillRect(this.x, this.y, 2, 2);
+            }
+        }
+        //星星闪烁
+        function playStars() {
+            for(let i = 0;i < starCount;i++) {
+                starAry[i].draw();
+            }
+            setTimeout('playStars()', 400);
+        }
+
+        //创建流星雨类
+        function MeteorRain() {
+            this.x = w * Math.random();//流星初始横坐标
+            this.y = h * Math.random();//流星初始纵坐标
+            this.length = Math.floor(Math.random() * 80) + 150;
+            this.angle = 30;//倾斜角
+            this.sin = Math.sin(this.angle * Math.PI / 180);
+            this.cos = Math.cos(this.angle * Math.PI / 180)
+            this.width = this.length * this.cos;
+            this.height = this.length * this.sin;
+            this.speed = 0.5 + Math.random();
+            this.vx = this.speed * this.cos;//横向速度
+            this.vy = this.speed * this.sin;//纵向速度
+            this.a = 1;//透明度
+        }
+        MeteorRain.prototype = {
+            //绘制流星
+            draw : function() {
+                context.save();//保存已有图像
+                context.beginPath();//开始新路径
+                context.lineWidth = 1;//线宽
+                let myGradient = context.createLinearGradient(this.x, this.y, this.x + this.width, this.y - this.height)//颜色渐变
+                //添加渐变效果
+                myGradient.addColorStop(0, 'White');
+                myGradient.addColorStop(0.3, this.getColor());
+                myGradient.addColorStop(0.6, 'black');
+                context.strokeStyle = myGradient;//设置笔触颜色效果
+                context.moveTo(this.x, this.y);//移动画笔焦点
+                context.lineTo(this.x + this.width, this.y - this.height);//绘制直线
+                context.closePath();//关闭绘画路径
+                context.stroke();//填充
+                context.restore();//恢复原有图像
+            },
+            //更新流星位置
+            move : function() {
+                context.clearRect(this.x, this.y - this.height, this.width, this.height);//清除上一时刻图像
+                this.x -= this.vx;//横坐标变化
+                this.y += this.vy;//纵坐标变化
+                this.a -= 0.02;
+                this.draw();
+            },
+            //选择颜色
+            getColor : function() {
+                let r = 250 - Math.floor(240 * Math.random());
+                return 'rgba(' + r + ',' + r + ',' + r + ',' + this.a + ')';
+            }
+        }
+        
+        //绘制流星
+        function playRains() {
+            for(let i = 0; i < rainCount;i++) {
+                let rain = rainAry[i];
+                rain.move();
+                if(rain.x < 0 || rain.y > h) {
+                    context.clearRect(rain.x, rain.y - rain.height, rain.width, rain.height);
+                    rainAry[i] = new MeteorRain();
+                }
+            }
+            setTimeout('playRains()', 3);
+        }
+        //加载文字
+        function words() {
+            context1.font = 'bold 50px Arial';
+            context1.fillStyle = 'blue';
+            let a = 0;
+            let flag = true;
+            let id = setInterval(function() {
+                context1.clearRect(0, 0, w, h);
+                context1.fillStyle = 'rgba(193,210,240,'+a+')';
+                context1.fillText('生日快乐', 570, 100);
+                context1.fillText('祝你早日减肥成功', 470, 200);
+                context1.fillText('听说', 620, 300);
+                context1.fillText('对流星许愿的话', 490, 400);
+                context1.fillText('愿望就会实现哦', 490, 500);
+                if(flag) {
+                    a >= 1 ? (flag = false) : (a += 0.1);
+                }
+            }, 200)
+        }
+        //页面加载
+        window.onload = function() {
+            w = window.innerWidth;
+            h = window.innerHeight;
+            canvas.width = canvas1.width = w;
+            canvas.height = canvas1.height = h;
+            words();
+            //words('生日快乐', 570, 200);
+            //setTimeout(words('祝你早日减肥成功', 470, 200), 2000);
+            //setTimeout(words('听说', 620, 300), 4500);
+            //setTimeout(words('对流星许愿的话', 490, 400), 6700);
+            //setTimeout(words('愿望就会实现哦', 490, 500), 10900);
+            //循环创建星星实例
+            for(let i = 0;i < starCount;i++) {
+                let star = new Star();
+                star.draw();
+                starAry.push(star);
+            }
+            //循环创建流星雨
+            for(let i = 0;i < rainCount;i++) {
+                let rain = new MeteorRain();
+                rain.draw();
+                rainAry.push(rain);
+            }
+            playStars();
+            playRains();
+        }
+    </script>    
+</body>
+</html>
