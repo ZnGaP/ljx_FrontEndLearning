@@ -50,26 +50,18 @@
  * @return {number}
  */
 var countBinarySubstrings = function(s) {
-    if(s.length < 2) return 0;
-    let count = 0;
-    for(let i = 0;i < s.length - 1;i++) {
-        let flag = true;
-        let val = s[i];
-        let j = 1;
-        while(s[i + j] === val) {
-            j++;
-            if(i + j === s.length) {
-                flag = false;
-                break;
-            };
+    let pre = 0, cur = 1, number = 0;
+    for(let i = 0; i < s.length - 1; i++) {
+        if(s[i] == s[i + 1]) {
+            cur++;
+        } else {
+            pre = cur;
+            cur = 1;
         }
-        for(let index = i + j;index < i + j + j - 1;index++) {
-            if(s[index] !== s[index + 1]) {
-                flag = false;
-            }
+        if(pre >= cur) {
+            number++;
         }
-        if(flag) count++;
     }
-    return count;
+    return number;
 };
 
