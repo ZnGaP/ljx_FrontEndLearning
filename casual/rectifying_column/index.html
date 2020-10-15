@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>index</title>
+    <style>
+        html body{
+            margin: 0;
+            height: 100%;
+            font-size: 14px;
+            color: seashell;
+            overflow: hidden;
+        }
+        body {
+            background: url('./bg.png') no-repeat center;
+        }
+        .header {
+            width: 100%;
+            height: 120px;
+            background: url('./header_bg.png') no-repeat center;
+            /* position: absolute; */
+        }
+        .title_box {
+            width: 600px;
+            height: 110px;
+            margin: 0 auto;
+        }
+        .title_box h2{
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 110px;
+            text-align: center;
+            color: antiquewhite;
+            text-shadow: 0px 0px 20px seashell;
+        }
+        .date_display {
+            width: 1000px;
+            height: 60px;
+            margin: 0 auto;
+            margin-top: 20px;
+            background: url('./date_display.png');
+        }
+        .date_display ul {
+            width: 640px;
+            height: 45px;
+            margin: 0 auto;
+            overflow: hidden;
+            padding-top: 15px;
+        }
+        .date_display ul li{
+            width: 110px;
+            height: 40px;
+            float: left;
+            margin-left: 10px;
+            list-style-type: none;
+        }
+        .date_display ul li.component_liquid{
+	        margin-left: 5px;
+        }
+        .btn{
+            width: 80px;
+            height: 30px;
+            display: block;
+            float: left;
+            background: url(./GbtnNormal.png);
+            line-height: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <script src='../three.js'></script>
+    <div class="header">
+        <div class="title_box"> 
+            <!-- <button class="rotate">
+                <font style="vertical-align: inherit;">stop</font>
+            </button> -->
+            <h2>
+                <font style="vertical-align: inherit;">三维模型展示</font>
+            </h2>
+        </div>
+    </div>
+    <div class="date_display">
+        <ul>
+            <li class="component_liquid">
+                <div class="btn">
+                    <font style="vertical-align: inherit;">液相组成</font>
+                </div>
+            </li>
+            <li class="component_vapor">
+                <div class="btn">
+                    <font style="vertical-align: inherit;">气相组成</font>
+                </div>
+            </li>
+            <li class="mass_flow_liquid">
+                <div class="btn">
+                    <font style="vertical-align: inherit;">液相质量流率</font>
+                </div>
+            </li>
+            <li class="mass_flow vapor">
+                <div class="btn">
+                    <font style="vertical-align: inherit;">气相质量流率</font>
+                </div>
+            </li>
+            <li class="temperature">
+                <div class="btn">
+                    <font style="vertical-align: inherit;">塔板温度</font>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script src=".\date_display.js"></script>
+</body>
+</html>

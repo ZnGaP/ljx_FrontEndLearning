@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>index</title>
+    <style>
+        html body{
+            margin: 0;
+            height: 100%;
+            font-size: 14px;
+            color: seashell;
+            overflow: hidden;
+        }
+        body {
+            background: url('./pic/bg.png') no-repeat center;
+            background-attachment: fixed;
+        }
+        .member {
+            top: 0;
+            left: 0;
+            margin: 0 auto;
+            padding: 0;
+            color: blanchedalmond;
+        }
+        .header {
+            width: 100%;
+            height: 120px;
+            background: url('./pic/header_bg.png') no-repeat center;
+            /* position: absolute; */
+        }
+        .title_box {
+            top: -20px;
+            left: 31%;
+            width: 600px;
+            height: 110px;
+            margin: 0 auto;
+            position: absolute;
+        }
+        .title_box h2{
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 110px;
+            text-align: center;
+            color: antiquewhite;
+            text-shadow: 0px 0px 20px seashell;
+        }
+        .equi_parameter {
+            display: none;
+        }
+        #note {
+            position:absolute;
+            display:none;
+            margin: 0;
+            padding: 0;
+            border:0;
+            background-color: rgba(172, 172, 172, 0.4);
+            font-family: Arial, Helvetica, sans-serif;
+            color:black;
+        }
+        .date_display {
+            background-color: rgba(0,0,0, 0.1);
+        }
+        .component1 {
+            position:absolute;
+
+            top: 130px;
+            left: 0px;
+        }
+        .component2 {
+            position:absolute;
+
+            top: 430px;
+            left: 0px;
+        }
+        .temperature {
+            position:absolute;
+
+            top: 130px;
+            left: 1150px;
+        }
+        .mass {
+            position:absolute;
+
+            top: 430px;
+            left: 1150px;
+        }
+    </style>
+</head>
+<body>
+    <script src="./js/three.js"></script>
+    
+    <div class="header">
+            <div class="member">
+                    成员：
+            </div>
+        <div class="title_box"> 
+            <!-- <button class="rotate">
+                <font style="vertical-align: inherit;">stop</font>
+            </button> -->
+            <h2>
+                <font style="vertical-align: inherit;">三维模型展示</font>
+            </h2>
+        </div>
+    </div>
+    <div class="equi_parameter">
+        <div class="equi_parameter heat1">
+            <table>
+                <tr>
+
+                </tr>
+            </table>
+        </div>
+        <div class="equi_parameter heat2"> 
+            <table>
+
+            </table>
+        </div>
+        <div class="equi_parameter column">
+            <table>
+
+            </table>
+        </div>
+        <div class="equi_parameter">
+
+        </div>
+    </div>
+    <div class="date_display component1">
+        <canvas id="component_liquid" width="350" height="280">
+            这里应该是一个折线图
+        </canvas>
+    </div>
+    <div class="date_display component2">
+        <canvas id="component_vapor" width="350" height="280">
+            这里应该是一个折线图
+        </canvas>
+    </div>
+    <div class="date_display mass">
+        <canvas id="mass" width="350" height="280">
+            这里应该是一个折线图
+        </canvas>
+    </div>
+    <div class="date_display temperature">
+        <canvas id="temperature" width="350" height="280">
+            这里应该是一个折线图
+        </canvas>
+    </div>
+    <div id="note"></div>
+    <script src="./js/chart.js"></script>
+    <script type="module">
+        console.log('112');
+        import * as THREE from './js/three.module.js';
+        console.log('111');
+        import { DDSLoader } from './js/DDSLoader.js';
+        import { MTLLoader } from './js/MTLLoader.js';
+        import { OBJLoader } from './js/OBJLoader.js';
+        var container;
+        var camera, scene, renderer;
+        var mouseX = 0, mouseY = 0;
+        var windowHalfX = window.innerWidth / 2;
+        var windowHalfY = window.innerHeight / 2;
+        init();
+        animate();
+        function init() {
+            container = document.createElement( 'div' );
+            document.body.appendChild( container );
+            camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+            camera.position.z = 250;
+            // scene
+            scene = new THREE.Scene();
+            var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
+            scene.add( ambientLight );
+            var pointLight = new THREE.PointLight( 0xffffff, 0.8 );
+            camera.add( pointLight );
+            scene.add( camera );
+            // model
+            var onProgress = function ( xhr ) {
+                if ( xhr.lengthComputable ) {
+                    var percentComplete = xhr.loaded / xhr.total * 100;
+                    console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
+                }
+            };
+            var onError = function () { };
+            var manager = new THREE.LoadingManager();
+            manager.addHandler( /\.dds$/i, new 
+                DDSLoader() );
+            // comment in the following line and import TGALoader if your asset uses TGA textures
+            // manager.addHandler( /\.tga$/i, new TGALoader() );
+            new MTLLoader( manager )
+                .setPath( './' )
+                .load( 'model.mtl', function ( materials ) {
+                    materials.preload();
+                    new OBJLoader( manager )
+                        .setMaterials( materials )
+                        .setPath( './' )
+                        .load( 'model.obj', function ( object ) {
+                            object.position.y = - 95;
+                            scene.add( object );
+                        }, onProgress, onError );
+                } );
+            //
+            renderer = new THREE.WebGLRenderer();
+            renderer.setPixelRatio( window.devicePixelRatio );
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            container.appendChild( renderer.domElement );
+            document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+            //
+            window.addEventListener( 'resize', onWindowResize, false );
+        }
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+        }
+        function onDocumentMouseMove( event ) {
+            mouseX = ( event.clientX - windowHalfX ) / 2;
+            mouseY = ( event.clientY - windowHalfY ) / 2;
+        }
+        //
+        function animate() {
+            requestAnimationFrame( animate );
+            render();
+        }
+        function render() {
+            camera.position.x += ( mouseX - camera.position.x ) * .05;
+            camera.position.y += ( - mouseY - camera.position.y ) * .05;
+            camera.lookAt( scene.position );
+            renderer.render( scene, camera );
+        }
+    </script>
+</body>
+</html>
