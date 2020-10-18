@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 console.log('112');
 import * as THREE from './three.module.js';
 console.log('111');
+=======
+import * as THREE from './three.module.js';
+>>>>>>> c6f93180785c0e0e5c9fa764f611549b6678102d
 import { DDSLoader } from './DDSLoader.js';
 import { MTLLoader } from './MTLLoader.js';
 import { OBJLoader } from './OBJLoader.js';
@@ -32,8 +36,12 @@ function init() {
     };
     var onError = function () { };
     var manager = new THREE.LoadingManager();
+<<<<<<< HEAD
     manager.addHandler( /\.dds$/i, new 
         DDSLoader() );
+=======
+    manager.addHandler( /\.dds$/i, new DDSLoader() );
+>>>>>>> c6f93180785c0e0e5c9fa764f611549b6678102d
     // comment in the following line and import TGALoader if your asset uses TGA textures
     // manager.addHandler( /\.tga$/i, new TGALoader() );
     new MTLLoader( manager )

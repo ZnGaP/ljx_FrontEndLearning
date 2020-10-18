@@ -2,6 +2,7 @@
  * @author mrdoob / http://mrdoob.com/
  */
 
+<<<<<<< HEAD
 import {
 	CompressedTextureLoader,
 	RGBAFormat,
@@ -20,6 +21,17 @@ var DDSLoader = function ( manager ) {
 DDSLoader.prototype = Object.assign( Object.create( CompressedTextureLoader.prototype ), {
 
 	constructor: DDSLoader,
+=======
+THREE.DDSLoader = function ( manager ) {
+
+	THREE.CompressedTextureLoader.call( this, manager );
+
+};
+
+THREE.DDSLoader.prototype = Object.assign( Object.create( THREE.CompressedTextureLoader.prototype ), {
+
+	constructor: THREE.DDSLoader,
+>>>>>>> c6f93180785c0e0e5c9fa764f611549b6678102d
 
 	parse: function ( buffer, loadMipmaps ) {
 
@@ -169,25 +181,41 @@ DDSLoader.prototype = Object.assign( Object.create( CompressedTextureLoader.prot
 			case FOURCC_DXT1:
 
 				blockBytes = 8;
+<<<<<<< HEAD
 				dds.format = RGB_S3TC_DXT1_Format;
+=======
+				dds.format = THREE.RGB_S3TC_DXT1_Format;
+>>>>>>> c6f93180785c0e0e5c9fa764f611549b6678102d
 				break;
 
 			case FOURCC_DXT3:
 
 				blockBytes = 16;
+<<<<<<< HEAD
 				dds.format = RGBA_S3TC_DXT3_Format;
+=======
+				dds.format = THREE.RGBA_S3TC_DXT3_Format;
+>>>>>>> c6f93180785c0e0e5c9fa764f611549b6678102d
 				break;
 
 			case FOURCC_DXT5:
 
 				blockBytes = 16;
+<<<<<<< HEAD
 				dds.format = RGBA_S3TC_DXT5_Format;
+=======
+				dds.format = THREE.RGBA_S3TC_DXT5_Format;
+>>>>>>> c6f93180785c0e0e5c9fa764f611549b6678102d
 				break;
 
 			case FOURCC_ETC1:
 
 				blockBytes = 8;
+<<<<<<< HEAD
 				dds.format = RGB_ETC1_Format;
+=======
+				dds.format = THREE.RGB_ETC1_Format;
+>>>>>>> c6f93180785c0e0e5c9fa764f611549b6678102d
 				break;
 
 			default:
@@ -200,7 +228,11 @@ DDSLoader.prototype = Object.assign( Object.create( CompressedTextureLoader.prot
 
 					isRGBAUncompressed = true;
 					blockBytes = 64;
+<<<<<<< HEAD
 					dds.format = RGBAFormat;
+=======
+					dds.format = THREE.RGBAFormat;
+>>>>>>> c6f93180785c0e0e5c9fa764f611549b6678102d
 
 				} else {
 
@@ -280,5 +312,8 @@ DDSLoader.prototype = Object.assign( Object.create( CompressedTextureLoader.prot
 	}
 
 } );
+<<<<<<< HEAD
 
 export { DDSLoader };
+=======
+>>>>>>> c6f93180785c0e0e5c9fa764f611549b6678102d
